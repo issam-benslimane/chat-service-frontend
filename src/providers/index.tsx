@@ -1,5 +1,6 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import { UserProvider } from "./User";
+import { BaseUrlProvider } from "./Url";
 
 type AppProviderProps = {
   children: React.ReactNode;
@@ -8,7 +9,9 @@ type AppProviderProps = {
 export const AppProvider = ({ children }: AppProviderProps) => {
   return (
     <UserProvider>
-      <Router>{children}</Router>
+      <BaseUrlProvider>
+        <Router>{children}</Router>
+      </BaseUrlProvider>
     </UserProvider>
   );
 };

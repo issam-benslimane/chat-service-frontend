@@ -1,18 +1,19 @@
-import { useEffect, useState } from "react";
-import { Workspace } from "../types";
-import axios from "../../common/utils/api";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
+import { ChannelsRoutes } from "../../channels";
+import { useWorkspace } from "../hooks/useWorkspace";
+import { BaseUrlProvider } from "../../../providers/Url";
 
 export const WorkspaceRoutes = () => {
-  const [workspace, setWorkspace] = useState<Workspace>();
   const { workspaceId } = useParams() as { workspaceId: string };
-
-  useEffect(() => {
-    axios.get("/workspaces/" + workspaceId).then((resp) => {
-      setWorkspace(resp.data);
-    });
-  }, [workspaceId]);
+  const { workspace } = useWorkspace(workspaceId);
 
   if (!workspace) return <p>loading...</p>;
-  return <Navigate to={"channels/86WXS9Y345"} />;
+  return (
+    <BaseUrlProvider path={workspaceId}>
+      <Routes>
+        <Route index element={<Navigate to="86WXS9Y345" />} />
+        <Route path=":channelId/*" element={<ChannelsRoutes />} />;
+      </Routes>
+    </BaseUrlProvider>
+  );
 };
