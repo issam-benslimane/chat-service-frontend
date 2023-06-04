@@ -1,35 +1,48 @@
-import { Link, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useBaseUrl } from "../../../providers/Url";
-import { useChannels } from "../hooks";
 import { Channel } from "../types";
 import { FaHashtag } from "react-icons/fa";
+import { FiLock } from "react-icons/fi";
+import clsx from "clsx";
 
-export const ChannelsNavigation = () => {
-  const { workspaceId } = useParams() as { workspaceId: string };
-  const { channels } = useChannels(workspaceId);
+type ChannelsNavigationProps = {
+  channels: Channel[];
+};
 
+export const ChannelsNavigation = ({ channels }: ChannelsNavigationProps) => {
   return (
-    <div className="text-white/70">
+    <div>
       <p>Channels</p>
       <ul>
         {channels.map((channel) => (
-          <ChannelItem key={channel.id} {...channel} />
+          <ChannelLink key={channel.id} {...channel} />
         ))}
       </ul>
     </div>
   );
 };
 
-const ChannelItem = ({ id, name }: Channel) => {
+const ChannelLink = ({ id, name, visibility }: Channel) => {
   const baseUrl = useBaseUrl();
   return (
-    <li key={id}>
-      <Link
+    <li>
+      <NavLink
         to={`${baseUrl}/${id}`}
-        className="flex items-center gap-2 rounded-md px-4 py-1 hover:bg-white/20"
+        className={({ isActive }) =>
+          clsx(
+            "flex items-center gap-2 rounded-md px-4 py-1",
+            !isActive && " hover:bg-white/20",
+            isActive && "bg-blue-600 text-white"
+          )
+        }
       >
-        <FaHashtag size={15} /> {name}
-      </Link>
+        {visibility === "private" ? (
+          <FiLock size={15} />
+        ) : (
+          <FaHashtag size={15} />
+        )}{" "}
+        {name}
+      </NavLink>
     </li>
   );
 };

@@ -1,1 +1,2 @@
-export * from "./useChannels";
+export * from "./useGetChannels";
+export * from "./useChannel";

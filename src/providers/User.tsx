@@ -20,8 +20,8 @@ type UserProviderProps = {
 
 export const UserProvider = ({ children }: UserProviderProps) => {
   const [currentUser, setCurrentUser] = useState<User>({
-    username: "Fern61",
-    email: "Tanner.Hettinger@gmail.com",
+    username: "Helene45",
+    email: "Helene.Hettinger@gmail.com",
     avatarUrl: "https://avatars.githubusercontent.com/u/47117894",
   });
   return (
