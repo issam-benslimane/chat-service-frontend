@@ -23,6 +23,16 @@ type ContextValue = {
 
 const ModalContext = createContext<ContextValue | undefined>(undefined);
 
+export const Modal = ({ children }: ModalProps) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
+  return (
+    <ModalContext.Provider value={{ isOpen, toggle }}>
+      {children}
+    </ModalContext.Provider>
+  );
+};
+
 export const ToggleButton = ({
   children,
   className,
@@ -62,16 +72,6 @@ const ModalContentBase = ({ children, className }: ContentProps) => {
     >
       {children}
     </div>
-  );
-};
-
-export const Modal = ({ children }: ModalProps) => {
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => setIsOpen(!isOpen);
-  return (
-    <ModalContext.Provider value={{ isOpen, toggle }}>
-      {children}
-    </ModalContext.Provider>
   );
 };
 

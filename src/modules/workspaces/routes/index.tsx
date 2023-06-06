@@ -11,7 +11,7 @@ export const WorkspaceRoutes = () => {
   return (
     <BaseUrlProvider path={workspaceId}>
       <Routes>
-        <Route index element={<Navigate to="Z9AHDNA392" />} />
+        <Route index element={<Navigate to="ACKR2CL66L" />} />
         <Route path=":channelId/*" element={<ChannelsRoutes />} />;
       </Routes>
     </BaseUrlProvider>

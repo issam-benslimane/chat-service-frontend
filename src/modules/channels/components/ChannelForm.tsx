@@ -8,13 +8,14 @@ import {
 import clsx from "clsx";
 import { IoClose } from "react-icons/io5";
 import { ToggleButton, useToggle } from "../../common/components/Modal";
-import { Channel, Visibility } from "../types";
+import { Channel, Params, Visibility } from "../types";
 import { FaHashtag } from "react-icons/fa";
 import { FaLock } from "react-icons/fa";
 import { AiOutlineInfoCircle } from "react-icons/ai";
-import { useCreateChannel } from "../hooks/useCreateChannel";
-import { useParams } from "react-router-dom";
+import { useCreateChannel } from "../hooks";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button } from "../../common/components/Button";
+import { useBaseUrl } from "../../../providers/Url";
 
 type ChannelFormProps = {
   channels: Channel[];
@@ -22,16 +23,19 @@ type ChannelFormProps = {
 
 export const ChannelForm = ({ channels }: ChannelFormProps) => {
   const { toggle } = useToggle();
-  const { workspaceId } = useParams() as { workspaceId: string };
+  const { workspaceId } = useParams() as Params;
+  const baseUrl = useBaseUrl();
   const [step, setStep] = useState(1);
   const [name, setName] = useState("");
   const [visibility, setVisibility] = useState<Visibility>("public");
   const createChannel = useCreateChannel(workspaceId);
+  const navigate = useNavigate();
 
   const handleSubmit = async (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
     try {
-      await createChannel.mutateAsync({ name, visibility });
+      const { id } = await createChannel.mutateAsync({ name, visibility });
+      navigate([baseUrl, id].join("/"));
       toggle();
     } catch (error) {
       console.log(error);

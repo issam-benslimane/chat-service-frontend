@@ -12,3 +12,8 @@ export type CreateChannelDto = {
   name: string;
   visibility: Visibility;
 };
+
+export type Params = {
+  workspaceId: string;
+  channelId: string;
+};

@@ -1,4 +1,5 @@
 import { createContext, useContext } from "react";
+import { mergeUrlParts } from "../modules/common/utils/url";
 
 const BaseUrlContext = createContext("/");
 
@@ -10,14 +11,10 @@ type Props = {
 export const BaseUrlProvider = ({ children, path }: Props) => {
   const base = useContext(BaseUrlContext);
   return (
-    <BaseUrlContext.Provider value={path ? mergePaths(base, path) : base}>
+    <BaseUrlContext.Provider value={mergeUrlParts(base, { path })}>
       {children}
     </BaseUrlContext.Provider>
   );
 };
 
 export const useBaseUrl = () => useContext(BaseUrlContext);
-
-function mergePaths(pathA: string, pathB: string) {
-  return [pathA.replace(/\/$/g, ""), pathB.replace(/^\/|\/$/g, "")].join("/");
-}

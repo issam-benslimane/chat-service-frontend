@@ -7,7 +7,7 @@ export const AppRoutes = () => {
   if (!currentUser) return <p>YOU ARE NOT LOGGED IN</p>;
   return (
     <Routes>
-      <Route path="/" element={<Navigate to="/T2DT1165YH" />} />
+      <Route path="/" element={<Navigate to="/D3P343T7IC" />} />
       <Route path="/:workspaceId/*" element={<WorkspaceRoutes />} />
     </Routes>
   );
